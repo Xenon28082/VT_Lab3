@@ -12,7 +12,7 @@ public class Server {
     private static ServerSocket serverSocket;
     private static BufferedReader in;
     private static BufferedWriter out;
-    private static StudentDAO dao = new StudentDAO();
+
 
     public static void main(String[] args) {
         try {
@@ -23,33 +23,9 @@ public class Server {
                 try {
                     in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
                     out = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
-                    String word = "";
-                    while (!word.equals("stop")) {
-                        word = in.readLine();
-                        System.out.println(word);
-                        switch (word) {
-                            case "read": {
-                                String students = dao.getStudents().toString();
-                                out.write(students + "\n");
-                                out.flush();
-                                break;
-                            }
-                            case "write": {
-                                Student student = new Student(in.readLine(), in.readLine(), Integer.parseInt(in.readLine()), in.readLine());
-                                dao.addNewStudent(student);
-                                System.out.println(student);
-                                break;
-                            }
-                            default:
-                                continue;
-                        }
+                    Thread thread = new ServerThread(clientSocket);
+                    while(thread.isAlive()){
                     }
-                } catch (ParserConfigurationException e) {
-                    e.printStackTrace();
-                } catch (TransformerException e) {
-                    e.printStackTrace();
-                } catch (SAXException e) {
-                    e.printStackTrace();
                 } finally {
                     clientSocket.close();
                     in.close();
