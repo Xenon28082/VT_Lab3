@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+
+<items>
+    <user>
+        <login>admin</login>
+        <password>admin</password>
+        <permission>RW</permission>
+    </user>
+    <user>
+        <login>userW</login>
+        <password>userW</password>
+        <permission>R</permission>
+    </user>
+</items>
